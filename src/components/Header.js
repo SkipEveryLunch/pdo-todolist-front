@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <header>
       <nav>
-        <ul className="text-xl py-5 flex gap-5 justify-center">
+        <ul className="py-5 flex gap-5 justify-center">
           <li>
             <Link to="/">Tasks</Link>
           </li>
