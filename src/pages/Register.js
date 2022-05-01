@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import client from '../client';
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -20,12 +21,21 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const formString = JSON.stringify({
+      name,
+      username: email,
+      password,
+    });
+    const res = await client.post('register.php', formString);
+    if (res.status === 200) {
+      alert(`Welcome, ${name}. You've successfully Registered!`);
+    }
   };
 
   return (
-    <section class="grid place-items-center">
+    <section className="grid place-items-center">
       <form
         className="flex flex-col gap-7 w-1/3 items-start"
         onSubmit={handleSubmit}
