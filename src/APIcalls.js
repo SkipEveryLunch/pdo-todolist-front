@@ -8,6 +8,19 @@ export const fetchTasks = async () => {
   });
   return res;
 };
+
+export const postTask = async (name) => {
+  const formString = JSON.stringify({
+    name,
+  });
+  const res = await client.post('tasks', formString, {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+    },
+  });
+  return res;
+};
+
 export const fetchRefreshToken = async () => {
   const tokenString = JSON.stringify({
     token: localStorage.getItem('refresh_token'),
