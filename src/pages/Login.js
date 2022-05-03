@@ -24,7 +24,6 @@ const Login = () => {
       password,
     });
     const res = await client.post('login.php', formString);
-    console.log(res);
     if (res.status === 200) {
       localStorage.setItem('access_token', res.data.access_token);
       localStorage.setItem('refresh_token', res.data.refresh_token);
