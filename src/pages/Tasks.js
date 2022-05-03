@@ -6,6 +6,9 @@ import {
   deleteTask,
   fetchRefreshToken,
 } from '../APIcalls';
+import Input from '../components/Input';
+import Button from '../components/Button';
+import TaskCard from '../components/TaskCard';
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
@@ -81,37 +84,29 @@ const Tasks = () => {
     handleFetchTasks();
   }, []);
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col justify-between">
+    <div className="grid place-items-center">
+      <div className="flex flex-col justify-between h-4/5">
         <section>
-          <ul>
+          <ul className="flex flex-col gap-1">
             {tasks.map((task) => {
               return (
-                <li key={task.id}>
-                  <span
-                    className={`${task.is_completed ? 'line-through' : ''}`}
-                    onClick={() => handleDoneTask(task)}
-                  >
-                    {task.name}
-                  </span>
-                  {task.is_completed ? (
-                    <span onClick={() => handleDeleteTask(task)}> × </span>
-                  ) : (
-                    ''
-                  )}
-                </li>
+                <TaskCard
+                  task={task}
+                  handleDoneTask={handleDoneTask}
+                  handleDeleteTask={handleDeleteTask}
+                />
               );
             })}
           </ul>
         </section>
         <section>
-          <form onSubmit={(e) => handleSubmitTask(e)} action="">
-            <input
+          <form onSubmit={(e) => handleSubmitTask(e)} className="flex gap-1">
+            <Input
+              name="new"
               value={newTask}
-              onChange={(e) => setNewTask(e.target.value)}
-              type="text"
+              handleChange={(e) => setNewTask(e.target.value)}
             />
-            <button>Submit</button>
+            <Button title="submit" />
           </form>
         </section>
       </div>
