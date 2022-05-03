@@ -86,8 +86,8 @@ const Tasks = () => {
   return (
     <div className="grid place-items-center">
       <div className="flex flex-col justify-between h-4/5">
-        <section>
-          <ul className="flex flex-col gap-1">
+        <section className="scroller">
+          <ul className="flex-1 flex flex-col gap-1 ">
             {tasks.map((task) => {
               return (
                 <TaskCard

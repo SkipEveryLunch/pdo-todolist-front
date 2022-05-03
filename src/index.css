@@ -7,3 +7,20 @@
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
 }
+.scroller {
+  @apply h-full mb-1;
+  overflow-y: auto;
+}
+.scroller::-webkit-scrollbar {
+  display: block;
+  width: 0.45rem;
+}
+.scroller::-webkit-scrollbar-track {
+  @apply bg-gray-300;
+}
+.scroller::-webkit-scrollbar-thumb {
+  @apply bg-gray-100 cursor-pointer;
+}
+.scroller li {
+  @apply mr-2;
+}
