@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Input from '../components/Input';
+import Button from '../components/Button';
 import client from '../client';
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -41,7 +42,7 @@ const Login = () => {
         <Input name="email" value={email} handleChange={handleChange} />
         <Input name="password" value={password} handleChange={handleChange} />
         <div className="w-full flex justify-end">
-          <button className="bg-gray-200 px-2 py-1 rounded-sm">Login</button>
+          <Button title="Login" />
         </div>
       </form>
     </section>

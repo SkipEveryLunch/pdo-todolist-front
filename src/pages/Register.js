@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Input from '../components/Input';
+import Button from '../components/Button';
 import client from '../client';
 const Register = () => {
   const [name, setName] = useState('');
@@ -45,7 +46,7 @@ const Register = () => {
         <Input name="email" value={email} handleChange={handleChange} />
         <Input name="password" value={password} handleChange={handleChange} />
         <div className="w-full flex justify-end">
-          <button className="bg-gray-200 px-2 py-1 rounded-sm">Register</button>
+          <Button title="Register" />
         </div>
       </form>
     </section>
