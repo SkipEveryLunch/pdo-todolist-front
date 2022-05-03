@@ -21,6 +21,18 @@ export const postTask = async (name) => {
   return res;
 };
 
+export const updateTask = async (data) => {
+  const formString = JSON.stringify({
+    is_completed: data.is_completed,
+  });
+  const res = await client.patch(`tasks/${data.id}`, formString, {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+    },
+  });
+  return res;
+};
+
 export const fetchRefreshToken = async () => {
   const tokenString = JSON.stringify({
     token: localStorage.getItem('refresh_token'),

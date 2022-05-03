@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTasks, postTask, fetchRefreshToken } from '../APIcalls';
+import {
+  fetchTasks,
+  postTask,
+  updateTask,
+  fetchRefreshToken,
+} from '../APIcalls';
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
@@ -37,6 +42,21 @@ const Tasks = () => {
       }
     }
   };
+  const handleDoneTask = async (task) => {
+    const { id, is_completed } = task;
+    try {
+      const res = await updateTask({ id, is_completed: !is_completed });
+      if (res.status === 200) {
+        handleFetchTasks();
+      }
+    } catch (e) {
+      await fetchRefreshToken();
+      const res = await updateTask({ id, is_completed: !is_completed });
+      if (res.status === 200) {
+        handleFetchTasks();
+      }
+    }
+  };
   useEffect(() => {
     handleFetchTasks();
   }, []);
@@ -46,7 +66,16 @@ const Tasks = () => {
         <section>
           <ul>
             {tasks.map((task) => {
-              return <li key={task.id}>{task.name}</li>;
+              return (
+                <li key={task.id}>
+                  <span
+                    className={`${task.is_completed ? 'line-through' : ''}`}
+                    onClick={() => handleDoneTask(task)}
+                  >
+                    {task.name}
+                  </span>
+                </li>
+              );
             })}
           </ul>
         </section>
