@@ -3,6 +3,7 @@ import {
   fetchTasks,
   postTask,
   updateTask,
+  deleteTask,
   fetchRefreshToken,
 } from '../APIcalls';
 const Tasks = () => {
@@ -57,6 +58,25 @@ const Tasks = () => {
       }
     }
   };
+
+  const handleDeleteTask = async (task) => {
+    const { id, is_completed } = task;
+    if (is_completed) {
+      try {
+        const res = await deleteTask(id);
+        if (res.status === 200) {
+          handleFetchTasks();
+        }
+      } catch (e) {
+        await fetchRefreshToken();
+        const res = await deleteTask(id);
+        if (res.status === 200) {
+          handleFetchTasks();
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     handleFetchTasks();
   }, []);
@@ -74,6 +94,11 @@ const Tasks = () => {
                   >
                     {task.name}
                   </span>
+                  {task.is_completed ? (
+                    <span onClick={() => handleDeleteTask(task)}> × </span>
+                  ) : (
+                    ''
+                  )}
                 </li>
               );
             })}

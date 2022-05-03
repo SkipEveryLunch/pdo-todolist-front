@@ -33,6 +33,15 @@ export const updateTask = async (data) => {
   return res;
 };
 
+export const deleteTask = async (id) => {
+  const res = await client.delete(`tasks/${id}`, {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+    },
+  });
+  return res;
+};
+
 export const fetchRefreshToken = async () => {
   const tokenString = JSON.stringify({
     token: localStorage.getItem('refresh_token'),
