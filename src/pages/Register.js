@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import client from '../client';
+import { useNavigate } from 'react-router-dom';
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ const Register = () => {
         console.log('key not found');
     }
   };
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formString = JSON.stringify({
@@ -30,9 +31,20 @@ const Register = () => {
       username: email,
       password,
     });
-    const res = await client.post('register.php', formString);
-    if (res.status === 200) {
-      alert(`Welcome, ${name}. You've successfully Registered!`);
+    try {
+      const res = await client.post('register.php', formString);
+      if (res.status === 200) {
+        alert(`Welcome, ${name}. You've successfully Registered!`);
+        navigate('/login');
+      }
+    } catch (e) {
+      if (e.response.status === 409) {
+        alert(
+          `Error Occurred. Chances are that ${email} has already been registered.`
+        );
+      } else {
+        alert('Unknown error occurred');
+      }
     }
   };
 
