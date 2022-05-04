@@ -33,6 +33,21 @@ export const updateTask = async (data) => {
   return res;
 };
 
+export const logout = async () => {
+  const tokenString = JSON.stringify({
+    token: localStorage.getItem('refresh_token'),
+  });
+  try {
+    await client.post('logout.php', tokenString);
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    return true;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
 export const deleteTask = async (id) => {
   const res = await client.delete(`tasks/${id}`, {
     headers: {

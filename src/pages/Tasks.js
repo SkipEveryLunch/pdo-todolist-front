@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import Context from '../Context';
 import {
   fetchTasks,
   postTask,
@@ -9,9 +10,11 @@ import {
 import Input from '../components/Input';
 import Button from '../components/Button';
 import TaskCard from '../components/TaskCard';
+import { useNavigate } from 'react-router-dom';
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
+  const { isLoggedin } = useContext(Context);
   const handleFetchTasks = async () => {
     try {
       const res = await fetchTasks();
@@ -79,10 +82,14 @@ const Tasks = () => {
       }
     }
   };
-
+  const navigate = useNavigate();
   useEffect(() => {
-    handleFetchTasks();
-  }, []);
+    if (isLoggedin) {
+      handleFetchTasks();
+    } else {
+      navigate('/login');
+    }
+  }, [isLoggedin]);
   return (
     <div className="grid place-items-center">
       <div className="flex flex-col justify-between h-4/5">
