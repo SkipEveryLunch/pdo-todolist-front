@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import client from '../client';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,18 +19,29 @@ const Login = () => {
         console.log('key not found');
     }
   };
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formString = JSON.stringify({
       username: email,
       password,
     });
-    const res = await client.post('login.php', formString);
-    if (res.status === 200) {
-      localStorage.setItem('access_token', res.data.access_token);
-      localStorage.setItem('refresh_token', res.data.refresh_token);
-      alert(`Logged in`);
+    try {
+      const res = await client.post('login.php', formString);
+      if (res.status === 200) {
+        localStorage.setItem('access_token', res.data.access_token);
+        localStorage.setItem('refresh_token', res.data.refresh_token);
+        alert(`Logged in`);
+        navigate('/');
+      }
+    } catch (e) {
+      if (e.response.status === 401) {
+        alert(
+          `Error Occurred during loggin in. Please reconfirm your email and password`
+        );
+      } else {
+        alert('Unknown error occurred');
+      }
     }
   };
 
