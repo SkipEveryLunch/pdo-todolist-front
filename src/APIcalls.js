@@ -54,6 +54,8 @@ export const fetchRefreshToken = async () => {
       console.log('token refreshed');
     }
   } catch (e) {
-    console.log(e);
+    console.log('remove tokens');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
   }
 };
